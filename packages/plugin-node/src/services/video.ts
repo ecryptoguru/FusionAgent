@@ -333,8 +333,10 @@ export class VideoService extends Service implements IVideoService {
 
         console.log(`Audio prepared at ${mp3FilePath}`);
 
-        const audioBuffer = fs.readFileSync(mp3FilePath);
-        console.log(`Audio file size: ${audioBuffer.length} bytes`);
+        const fileBuffer = fs.readFileSync(mp3FilePath);
+        const uint8Array = new Uint8Array(fileBuffer);
+        const audioBuffer = uint8Array.buffer;
+        console.log(`Audio file size: ${audioBuffer.byteLength} bytes`);
 
         console.log("Starting transcription...");
         const startTime = Date.now();

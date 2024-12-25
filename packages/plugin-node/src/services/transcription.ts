@@ -113,7 +113,7 @@ export class TranscriptionService
         }
     }
 
-    private async convertAudio(inputBuffer: ArrayBuffer): Promise<Buffer> {
+    private async convertAudio(inputBuffer: ArrayBuffer): Promise<ArrayBuffer> {
         const inputPath = path.join(
             this.CONTENT_CACHE_DIR,
             `input_${Date.now()}.wav`
@@ -149,9 +149,13 @@ export class TranscriptionService
             const convertedBuffer = fs.readFileSync(outputPath);
             fs.unlinkSync(inputPath);
             fs.unlinkSync(outputPath);
-            return convertedBuffer;
+
+            const uint8Array = new Uint8Array(convertedBuffer);
+            return uint8Array.buffer;
         } catch (error) {
             elizaLogger.error("Error converting audio:", error);
+            fs.existsSync(inputPath) && fs.unlinkSync(inputPath);
+            fs.existsSync(outputPath) && fs.unlinkSync(outputPath);
             throw error;
         }
     }
@@ -296,7 +300,7 @@ export class TranscriptionService
                 this.CONTENT_CACHE_DIR,
                 `temp_${Date.now()}.wav`
             );
-            fs.writeFileSync(tempWavFile, convertedBuffer);
+            fs.writeFileSync(tempWavFile, Buffer.from(convertedBuffer));
 
             elizaLogger.debug(`Temporary WAV file created: ${tempWavFile}`);
 

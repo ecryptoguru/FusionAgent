@@ -1,7 +1,7 @@
 import { Character, ModelProviderName, Clients } from "@ai16z/eliza";
 
 export const novaCharacter: Character = {
-    clients: [Clients.TWITTER],
+    clients: [Clients.DIRECT],
     modelProvider: ModelProviderName.OPENAI,
     name: "Nova",
     username: "nova_fusionwave",

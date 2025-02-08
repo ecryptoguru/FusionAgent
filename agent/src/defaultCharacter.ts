@@ -2,7 +2,7 @@ import { Character, ModelProviderName, Clients } from "@ai16z/eliza";
 
 export const novaCharacter: Character = {
     clients: [Clients.DIRECT],
-    modelProvider: ModelProviderName.OPENAI,
+    modelProvider: ModelProviderName.OPENROUTER,
     name: "Nova",
     username: "nova_fusionwave",
     settings: {
